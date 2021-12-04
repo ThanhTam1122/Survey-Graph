@@ -1,0 +1,24 @@
+name: Develop Check
+on: push
+
+jobs:
+  front-end-check:
+    name: Front End Check
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.18.2
+          cache: yarn
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: ESlint & StyleLint & Prettier
+        run: yarn lint-check
