@@ -1,14 +1,15 @@
-import { VFC } from 'react';
+import { VFC, ChangeEventHandler } from 'react';
 import { css } from '@emotion/react';
 
 type Props = {
   label: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const CheckBox: VFC<Props> = ({ label }) => {
+const CheckBox: VFC<Props> = ({ label, onChange }) => {
   return (
     <label css={checkBoxControl}>
-      <input css={checkBox} type="checkbox" />
+      <input css={checkBox} type="checkbox" onChange={onChange} />
       <span css={labelText}>{label}</span>
     </label>
   );
