@@ -1,6 +1,7 @@
 import { VFC } from 'react';
 import Highcharts, { SeriesOptionsType, Options } from 'highcharts';
 import HighchartsExporting from 'highcharts/modules/exporting';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
@@ -11,6 +12,7 @@ type Props = {
 const PopulationGraph: VFC<Props> = ({ data }) => {
   if (typeof Highcharts === 'object') {
     HighchartsExporting(Highcharts);
+    NoDataToDisplay(Highcharts);
     HighchartsMore(Highcharts);
   }
 
@@ -43,13 +45,6 @@ const PopulationGraph: VFC<Props> = ({ data }) => {
       align: 'right',
       verticalAlign: 'middle',
     },
-    plotOptions: {
-      series: {
-        label: {
-          connectorAllowed: false,
-        },
-      },
-    },
     series: data,
     responsive: {
       rules: [
@@ -66,6 +61,21 @@ const PopulationGraph: VFC<Props> = ({ data }) => {
           },
         },
       ],
+    },
+    lang: {
+      noData: '表示するデータがありません',
+      viewFullscreen: '全画面表示',
+      printChart: 'グラフを印刷する',
+      downloadPNG: 'PNGとしてダウンロード',
+      downloadJPEG: 'JPRGとしてダウンロード',
+      downloadPDF: 'PDFとしてダウンロード',
+      downloadSVG: 'SVGとしてダウンロード',
+    },
+    noData: {
+      style: {
+        fontWeight: 'bold',
+        fontSize: '16px',
+      },
     },
   };
 
