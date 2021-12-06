@@ -3,15 +3,17 @@ import { css } from '@emotion/react';
 import Header from '@/components/common/Header';
 import PrefectureFieldset from '@/components/model/Prefecture/PrefectureFieldset';
 import PopulationGraph from '@/components/model/Population/PopulationGraph';
+import usePrefecture from '@/hooks/usePrefecture';
 
 const Home: VFC = () => {
+  const { prefectures } = usePrefecture();
   return (
     <div>
       <Header />
 
       <main css={main}>
         <div css={[container, mainLayout]}>
-          <PrefectureFieldset prefectures={prefectures} />
+          <PrefectureFieldset prefectures={prefectures?.result} />
           <PopulationGraph data={data} />
         </div>
       </main>

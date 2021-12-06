@@ -4,7 +4,7 @@ import { Prefecture } from '@/models/Prefecture';
 import CheckBox from '@/components/common/CheckBox';
 
 type Props = {
-  prefectures: Prefecture[];
+  prefectures?: Prefecture[];
 };
 
 const PrefectureFieldset: VFC<Props> = ({ prefectures }) => {
@@ -12,7 +12,7 @@ const PrefectureFieldset: VFC<Props> = ({ prefectures }) => {
     <fieldset css={prefectureFieldset}>
       <legend css={prefectureLegend}>都道府県</legend>
       <div css={prefectureLayout}>
-        {prefectures.map((prefecture) => {
+        {prefectures?.map((prefecture) => {
           return (
             <CheckBox key={prefecture.prefCode} label={prefecture.prefName} />
           );
