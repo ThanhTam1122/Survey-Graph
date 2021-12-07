@@ -7,6 +7,7 @@ import Alert from '@/components/common/Alert';
 import Toast from '@/components/common/Toast';
 import usePrefecture from '@/hooks/usePrefecture';
 import usePopulation from '@/hooks/usePopulation';
+import { breakPoint } from '@/styles/constants';
 
 const Home: VFC = () => {
   const {
@@ -58,9 +59,13 @@ const main = css`
 `;
 
 const container = css`
-  max-width: 1280px;
-  padding: 0 8%;
+  max-width: ${breakPoint.lg}px;
+  padding: 0 4%;
   margin: 0 auto;
+
+  @media (min-width: ${breakPoint.sm}px) {
+    padding: 0 8%;
+  }
 `;
 
 const mainLoadingLayout = css`

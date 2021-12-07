@@ -1,5 +1,6 @@
 import { VFC, ChangeEventHandler } from 'react';
 import { css } from '@emotion/react';
+import { breakPoint } from '@/styles/constants';
 
 type Props = {
   label: string;
@@ -21,13 +22,23 @@ const checkBoxControl = css`
 `;
 
 const checkBox = css`
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
+
+  @media (min-width: ${breakPoint.sm}px) {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 const labelText = css`
   margin-left: 8px;
-  font-size: 24px;
+  font-size: 18px;
+
+  @media (min-width: ${breakPoint.sm}px) {
+    margin-left: 8px;
+    font-size: 24px;
+  }
 `;
 
 export default CheckBox;
