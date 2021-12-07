@@ -1,5 +1,6 @@
-import { ChangeEvent, useCallback, useReducer } from 'react';
+import { ChangeEvent, useState, useCallback, useReducer } from 'react';
 import { SeriesOptionsType } from 'highcharts';
+import { HTTPError } from 'ky';
 import { PopulationCategories } from '@/models/Population';
 import getPopulations from '@/domains/getPopulations';
 
@@ -35,15 +36,32 @@ const reducer = (state: SeriesOptionsType[], action: Action) => {
 
 const usePopulation = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handlePrefectureCheck = useCallback(
     (prefCode: number, prefName: string) =>
       (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-          getPopulations({ searchParams: { prefCode, cityCode: '-' } }).then(
-            (data) =>
-              dispatch({ type: ADD_POPULATION, prefName, payload: data })
-          );
+          setIsLoading(true);
+          getPopulations({ searchParams: { prefCode, cityCode: '-' } })
+            .then((data) => {
+              dispatch({ type: ADD_POPULATION, prefName, payload: data });
+              setIsLoading(false);
+              setErrorMessage('');
+            })
+            .catch((err) => {
+              if (err instanceof HTTPError) {
+                setErrorMessage(
+                  `${prefName}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`
+                );
+              } else if (err instanceof Error) {
+                setErrorMessage('想定しない人口遷移データが取得されました。');
+              } else {
+                console.error(err);
+              }
+              setIsLoading(false);
+            });
         } else {
           dispatch({ type: REMOVE_POPULATION, prefName });
         }
@@ -51,7 +69,17 @@ const usePopulation = () => {
     []
   );
 
-  return { populations: state, handlePrefectureCheck };
+  const handleResetError = useCallback(() => {
+    setErrorMessage('');
+  }, []);
+
+  return {
+    populations: state,
+    isLoading,
+    errorMessage,
+    handlePrefectureCheck,
+    handleResetError,
+  };
 };
 
 export default usePopulation;
