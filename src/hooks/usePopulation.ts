@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useCallback, useReducer } from 'react';
 import { SeriesOptionsType } from 'highcharts';
 import { HTTPError } from 'ky';
-import { PopulationCategories } from '@/models/Population';
+import { PopulationCategory } from '@/models/Population';
 import getPopulations from '@/domains/getPopulations';
 
 const ADD_POPULATION = 'ADD_POPULATION';
@@ -10,7 +10,7 @@ const REMOVE_POPULATION = 'REMOVE_POPULATION';
 type Action = {
   type: string;
   prefName: string;
-  payload?: PopulationCategories;
+  payload?: PopulationCategory;
 };
 
 const initialState: SeriesOptionsType[] = [];
@@ -18,13 +18,10 @@ const initialState: SeriesOptionsType[] = [];
 const reducer = (state: SeriesOptionsType[], action: Action) => {
   switch (action.type) {
     case ADD_POPULATION:
-      const totalPopulation = action.payload?.result.data.find(
-        (category) => category.label === '総人口'
-      );
       const population: SeriesOptionsType = {
         type: 'line',
         name: action.prefName,
-        data: totalPopulation?.data.map((d) => [d.year, d.value]),
+        data: action.payload?.data.map((d) => [d.year, d.value]),
       };
       return [...state, population];
     case REMOVE_POPULATION:
@@ -46,7 +43,18 @@ const usePopulation = () => {
           setIsLoading(true);
           getPopulations({ searchParams: { prefCode, cityCode: '-' } })
             .then((data) => {
-              dispatch({ type: ADD_POPULATION, prefName, payload: data });
+              const totalPopulation = data.result.data.find(
+                (category) => category.label === '総人口'
+              );
+              // データ取得できても、総人口データがない時はエラーにする
+              if (totalPopulation === undefined) {
+                throw new Error('Not TotalPopulation Data');
+              }
+              dispatch({
+                type: ADD_POPULATION,
+                prefName,
+                payload: totalPopulation,
+              });
               setIsLoading(false);
               setErrorMessage('');
             })
