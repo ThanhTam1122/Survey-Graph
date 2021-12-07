@@ -1,23 +1,28 @@
 import { VFC } from 'react';
-import Highcharts from 'highcharts';
+import Highcharts, { SeriesOptionsType, Options } from 'highcharts';
 import HighchartsExporting from 'highcharts/modules/exporting';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import HighchartsMore from 'highcharts/highcharts-more';
 import HighchartsReact from 'highcharts-react-official';
 
 type Props = {
-  data: Highcharts.SeriesOptionsType[];
+  data: SeriesOptionsType[];
 };
 
 const PopulationGraph: VFC<Props> = ({ data }) => {
   if (typeof Highcharts === 'object') {
     HighchartsExporting(Highcharts);
+    NoDataToDisplay(Highcharts);
     HighchartsMore(Highcharts);
   }
-  const options: Highcharts.Options = {
+
+  const options: Options = {
     title: {
       text: '人口遷移グラフ',
     },
-
+    subtitle: {
+      text: '選択した都道府県のデータが表示されます。',
+    },
     yAxis: {
       title: {
         align: 'high',
@@ -27,7 +32,6 @@ const PopulationGraph: VFC<Props> = ({ data }) => {
         y: -20,
       },
     },
-
     xAxis: {
       title: {
         align: 'high',
@@ -35,29 +39,13 @@ const PopulationGraph: VFC<Props> = ({ data }) => {
         x: 30,
         y: -20,
       },
-      accessibility: {
-        rangeDescription: 'Range: 1960 to 2045',
-      },
     },
-
     legend: {
       layout: 'vertical',
       align: 'right',
       verticalAlign: 'middle',
     },
-
-    plotOptions: {
-      series: {
-        label: {
-          connectorAllowed: false,
-        },
-        pointStart: 1960,
-        pointInterval: 5,
-      },
-    },
-
     series: data,
-
     responsive: {
       rules: [
         {
@@ -73,6 +61,21 @@ const PopulationGraph: VFC<Props> = ({ data }) => {
           },
         },
       ],
+    },
+    lang: {
+      noData: '表示するデータがありません',
+      viewFullscreen: '全画面表示',
+      printChart: 'グラフを印刷する',
+      downloadPNG: 'PNGとしてダウンロード',
+      downloadJPEG: 'JPRGとしてダウンロード',
+      downloadPDF: 'PDFとしてダウンロード',
+      downloadSVG: 'SVGとしてダウンロード',
+    },
+    noData: {
+      style: {
+        fontWeight: 'bold',
+        fontSize: '16px',
+      },
     },
   };
 
