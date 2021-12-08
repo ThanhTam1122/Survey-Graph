@@ -1,3 +1,3 @@
-import PopulationGraph from '@/components/model/Population/PopulationGraph/PopulationGraph';
+import PopulationGraph from './PopulationGraph';
 
 export default PopulationGraph;

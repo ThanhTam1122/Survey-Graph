@@ -1,3 +1,3 @@
-import PrefectureFieldset from '@/components/model/Prefecture/PrefectureFieldset/PrefectureFieldset';
+import PrefectureFieldset from './PrefectureFieldset';
 
 export default PrefectureFieldset;
