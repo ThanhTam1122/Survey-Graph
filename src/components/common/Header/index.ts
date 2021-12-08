@@ -1,3 +1,3 @@
-import Header from '@/components/common/Header/Header';
+import Header from './Header';
 
 export default Header;
