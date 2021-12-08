@@ -38,13 +38,15 @@ const Home: VFC = () => {
           </div>
         ) : (
           // 都道府県 API データ取得成功時の UI
-          <div css={[container, mainLayout]}>
-            <PrefectureFieldset
-              prefectures={prefectures?.result}
-              handleCheck={handlePrefectureCheck}
-            />
-            <PopulationGraph data={populations} />
-          </div>
+          prefectures && (
+            <div css={[container, mainLayout]}>
+              <PrefectureFieldset
+                prefectures={prefectures?.result}
+                handleCheck={handlePrefectureCheck}
+              />
+              <PopulationGraph data={populations} />
+            </div>
+          )
         )}
       </main>
       <Toast isOpen={!!populationErrMsg} onClose={handleResetError}>
