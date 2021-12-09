@@ -1,6 +1,7 @@
 export type Population = {
   year: number;
   value: number;
+  rate?: number;
 };
 
 export type PopulationCategory = {

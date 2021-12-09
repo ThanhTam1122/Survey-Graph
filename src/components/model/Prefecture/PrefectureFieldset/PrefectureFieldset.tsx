@@ -15,8 +15,10 @@ type Props = {
 const PrefectureFieldset: VFC<Props> = ({ prefectures, handleCheck }) => {
   return (
     <fieldset css={prefectureFieldset}>
-      <legend css={prefectureLegend}>都道府県</legend>
-      <div css={prefectureLayout}>
+      <legend css={prefectureLegend} data-testid="prefectureFieldsetLegend">
+        都道府県
+      </legend>
+      <div css={prefectureLayout} data-testid="prefectureFieldsetData">
         {prefectures?.map((prefecture) => {
           return (
             <CheckBox
