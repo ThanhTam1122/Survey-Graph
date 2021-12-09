@@ -15,6 +15,7 @@ const Alert: FC<Props> = ({ type = 'info', children }) => {
         type === 'info' && alertInfo,
         type === 'error' && alertError,
       ]}
+      data-testid="alert"
     >
       <div
         css={[
@@ -22,6 +23,7 @@ const Alert: FC<Props> = ({ type = 'info', children }) => {
           type === 'info' && alertInfoType,
           type === 'error' && alertErrorType,
         ]}
+        data-testid="alertType"
       >
         {type}
       </div>
