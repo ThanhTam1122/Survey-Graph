@@ -23,7 +23,7 @@ const Toast: FC<Props> = ({
   // クライアント側の処理になるので、Next.jsでのサーバ側ではポータルを使わないようにする
   if (!process.browser) {
     return (
-      <div css={[toast, isOpen && toastOpen]} data-testid="notPortalToast">
+      <div css={[toast, isOpen && toastOpen]} data-testid="portalToast">
         {children}
       </div>
     );

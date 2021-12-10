@@ -15,7 +15,7 @@ describe('Toast', () => {
   test('props: isOpen=false', () => {
     render(<Toast isOpen={false} onClose={() => {}} />);
 
-    expect(screen.getByTestId('notPortalToast')).not.toHaveStyleRule(
+    expect(screen.getByTestId('portalToast')).not.toHaveStyleRule(
       'visibility',
       'visible'
     );
@@ -24,7 +24,7 @@ describe('Toast', () => {
   test('props: isOpen=opem', () => {
     render(<Toast isOpen onClose={() => {}} />);
 
-    expect(screen.getByTestId('notPortalToast')).toHaveStyleRule(
+    expect(screen.getByTestId('portalToast')).toHaveStyleRule(
       'visibility',
       'visible'
     );
@@ -65,7 +65,7 @@ describe('Toast', () => {
         {children}
       </Toast>
     );
-    const toast = screen.getByTestId('notPortalToast');
+    const toast = screen.getByTestId('portalToast');
 
     expect(toast).toContainHTML('<p>childrenテスト</p>');
   });
