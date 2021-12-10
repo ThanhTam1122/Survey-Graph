@@ -10,8 +10,15 @@ type Props = {
 const CheckBox: VFC<Props> = ({ label, onChange }) => {
   return (
     <label css={checkBoxControl}>
-      <input css={checkBox} type="checkbox" onChange={onChange} />
-      <span css={labelText}>{label}</span>
+      <input
+        css={checkBox}
+        data-testid="checkbox"
+        type="checkbox"
+        onChange={onChange}
+      />
+      <span css={labelText} data-testid="checkboxLabelText">
+        {label}
+      </span>
     </label>
   );
 };

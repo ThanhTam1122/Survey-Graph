@@ -6,7 +6,7 @@ const Header: VFC = () => {
   return (
     <header css={header}>
       <div css={[container, headerLayout]}>
-        <h1>RESAS Graph App</h1>
+        <h1 data-testid="headerTitle">RESAS Graph App</h1>
       </div>
     </header>
   );

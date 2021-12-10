@@ -1,6 +1,7 @@
 export type Population = {
   year: number;
   value: number;
+  rate?: number;
 };
 
 export type PopulationCategory = {
@@ -19,7 +20,11 @@ export type PopulationCategories = {
 const isPopulation = (arg: unknown): arg is Population => {
   const p = arg as Population;
 
-  return typeof p.year === 'number' && typeof p.value === 'number';
+  return (
+    typeof p.year === 'number' &&
+    typeof p.value === 'number' &&
+    (typeof p.rate === 'undefined' || typeof p.rate === 'number')
+  );
 };
 
 const isPopulationCategory = (arg: unknown): arg is PopulationCategory => {
