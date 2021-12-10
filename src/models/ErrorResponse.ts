@@ -1,9 +1,9 @@
 export type SimpleErrorResponse = '400' | '404';
 
 export type MessageErrorResponse = {
-  statusCode: '403' | '404';
-  message: string;
-  description: string;
+  statusCode?: '403' | '404';
+  message: string | null;
+  description?: string;
 };
 
 const isSimpleErrorResponse = (arg: unknown): arg is SimpleErrorResponse => {
@@ -16,9 +16,12 @@ const isMessageErrorResponse = (arg: unknown): arg is MessageErrorResponse => {
   const err = arg as MessageErrorResponse;
 
   return (
-    (err.statusCode === '403' || err.statusCode === '404') &&
-    typeof err.message === 'string' &&
-    typeof err.description === 'string'
+    (typeof err.statusCode === 'undefined' ||
+      err.statusCode === '403' ||
+      err.statusCode === '404') &&
+    (typeof err.message === 'string' || err.message === null) &&
+    (typeof err.description === 'undefined' ||
+      typeof err.description === 'string')
   );
 };
 

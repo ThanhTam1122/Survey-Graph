@@ -36,8 +36,8 @@ export const DEFAULT_API_OPTIONS: Options = {
         if (isMessageErrorResponse(data)) {
           init = {
             headers,
-            status: parseInt(data.statusCode),
-            statusText: data.message,
+            status: data.statusCode ? parseInt(data.statusCode) : status,
+            statusText: data.message ? data.message : '',
           };
         }
 
