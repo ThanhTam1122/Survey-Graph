@@ -5,7 +5,7 @@ jobs:
   front-end-check:
     name: Front End Check
     runs-on: ubuntu-20.04
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -22,3 +22,6 @@ jobs:
 
       - name: ESlint & StyleLint & Prettier
         run: yarn lint-check
+
+      - name: Jest
+        run: yarn test
