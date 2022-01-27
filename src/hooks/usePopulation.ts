@@ -55,7 +55,6 @@ const usePopulation = () => {
                 prefName,
                 payload: totalPopulation,
               });
-              setIsLoading(false);
               setErrorMessage('');
             })
             .catch((err) => {
@@ -68,6 +67,8 @@ const usePopulation = () => {
               } else {
                 console.error(err);
               }
+            })
+            .finally(() => {
               setIsLoading(false);
             });
         } else {
