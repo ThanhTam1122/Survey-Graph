@@ -15,7 +15,6 @@ const usePrefecture = () => {
     getPrefectures()
       .then((data) => {
         setPrefectures(data);
-        setIsLoading(false);
         setErrorMessage('');
       })
       .catch((err) => {
@@ -28,6 +27,8 @@ const usePrefecture = () => {
         } else {
           console.error(err);
         }
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   }, []);
