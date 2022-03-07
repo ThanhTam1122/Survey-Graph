@@ -1,4 +1,4 @@
-//import { HTTPError } from 'ky-universal';
+import { HTTPError } from 'ky';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import getPopulations from './getPopulations';
@@ -34,13 +34,13 @@ describe('getPopulations', () => {
   });
 
   // TODO 異常系テスト
-  // test('request: 403', () => {
-  //   forbiddenServer.listen();
+  test('request: 403', () => {
+    forbiddenServer.listen();
 
-  //   getPopulations().catch((err) => {
-  //     expect(err).toBeInstanceOf(HTTPError);
-  //   });
+    getPopulations().catch((err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+    });
 
-  //   forbiddenServer.close();
-  // });
+    forbiddenServer.close();
+  });
 });
