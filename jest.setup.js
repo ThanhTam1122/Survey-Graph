@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
 
-const fetch = require('node-fetch');
+import nodeFetch, { Request, Headers, Response } from 'node-fetch';
 
-globalThis.fetch = fetch;
-globalThis.Request = fetch.Request;
-globalThis.Headers = fetch.Headers;
-globalThis.Response = fetch.Response;
+global.fetch = nodeFetch;
+global.Request = Request;
+global.Headers = Headers;
+global.Response = Response;

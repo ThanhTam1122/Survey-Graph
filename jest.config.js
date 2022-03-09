@@ -10,7 +10,7 @@ module.exports = {
   },
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(js|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
   },
   transformIgnorePatterns: [`/node_modules/(?!(${esModules}))/`],
 };

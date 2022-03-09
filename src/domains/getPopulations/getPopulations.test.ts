@@ -1,46 +1,35 @@
 import { HTTPError } from 'ky';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
 import getPopulations from './getPopulations';
-import { populationCategories } from '@/mock/population';
-import { forbidden } from '@/mock/errorResponse';
+import { populationCategories } from '@/mock/data/population';
+import { server } from '@/mock/server';
 
-const API_URL =
-  'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear';
+beforeAll(() => server.listen());
 
-const okServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(populationCategories));
-  })
-);
+afterEach(() => server.resetHandlers());
 
-const forbiddenServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(forbidden));
-  })
-);
+afterAll(() => server.close());
 
 describe('getPopulations', () => {
   test('request: 200', () => {
-    okServer.listen();
-
-    getPopulations()
-      .then((data) => {
-        expect(data).toEqual(populationCategories);
-      })
-      .catch(() => {});
-
-    okServer.close();
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).then((data) => {
+      expect(data).toEqual(populationCategories);
+    });
   });
 
-  // TODO 異常系テスト
+  // API KEY がない場合
   test('request: 403', () => {
-    forbiddenServer.listen();
-
-    getPopulations().catch((err) => {
-      expect(err).toBeInstanceOf(HTTPError);
-    });
-
-    forbiddenServer.close();
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+      headers: {},
+    })
+      .then(() => {})
+      .catch((err) => {
+        expect(err).toBeInstanceOf(HTTPError);
+        if (err instanceof HTTPError) {
+          expect(err.response.status).toEqual(403);
+        }
+      });
   });
 });

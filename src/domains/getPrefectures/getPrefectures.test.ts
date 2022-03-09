@@ -1,35 +1,19 @@
-//import { HTTPError } from 'ky-universal';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+//import { HTTPError } from 'ky';
 import getPrefectures from './getPrefectures';
-import { prefectures } from '@/mock/prefecture';
-import { forbidden } from '@/mock/errorResponse';
+import { prefectures } from '@/mock/data/prefecture';
+import { server } from '@/mock/server';
 
-const API_URL = 'https://opendata.resas-portal.go.jp/api/v1/prefectures';
+beforeAll(() => server.listen());
 
-const okServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(prefectures));
-  })
-);
+afterEach(() => server.resetHandlers());
 
-const forbiddenServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(forbidden));
-  })
-);
+afterAll(() => server.close());
 
 describe('getPrefectures', () => {
   test('request: 200', () => {
-    okServer.listen();
-
-    getPrefectures()
-      .then((data) => {
-        expect(data).toEqual(prefectures);
-      })
-      .catch(() => {});
-
-    okServer.close();
+    return getPrefectures().then((data) => {
+      expect(data).toEqual(prefectures);
+    });
   });
 
   // TODO 異常系
