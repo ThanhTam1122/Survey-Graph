@@ -43,7 +43,7 @@ const usePopulation = () => {
           setIsLoading(true);
           getPopulations({ searchParams: { prefCode, cityCode: '-' } })
             .then((data) => {
-              const totalPopulation = data.result.data.find(
+              const totalPopulation = data.result?.data.find(
                 (category) => category.label === '総人口'
               );
               // データ取得できても、総人口データがない時はエラーにする

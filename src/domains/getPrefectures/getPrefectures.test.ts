@@ -1,9 +1,13 @@
-//import { HTTPError } from 'ky';
+import { HTTPError } from 'ky';
 import getPrefectures from './getPrefectures';
-import { prefectures } from '@/mock/data/prefecture';
+import { MOCK_RESAS_API_KEY, MOCK_TOO_MANY_REQUESTS } from '@/mock/constants';
 import { server } from '@/mock/server';
+import { prefectures } from '@/mock/data/prefecture';
+import { forbidden, tooManyRequests } from '@/mock/data/errorResponse';
 
 beforeAll(() => server.listen());
+
+beforeEach(() => (process.env.NEXT_PUBLIC_RESAS_API_KEY = MOCK_RESAS_API_KEY));
 
 afterEach(() => server.resetHandlers());
 
@@ -16,5 +20,27 @@ describe('getPrefectures', () => {
     });
   });
 
-  // TODO 異常系
+  test('request: 403', () => {
+    process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
+
+    return getPrefectures().catch(async (err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+      if (err instanceof HTTPError) {
+        expect(err.response.status).toEqual(403);
+        expect(await err.response.json()).toEqual(forbidden);
+      }
+    });
+  });
+
+  test('request: 429', () => {
+    process.env.DAMMY_REQUEST = MOCK_TOO_MANY_REQUESTS;
+
+    return getPrefectures().catch(async (err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+      if (err instanceof HTTPError) {
+        expect(err.response.status).toEqual(429);
+        expect(await err.response.json()).toEqual(tooManyRequests);
+      }
+    });
+  });
 });
