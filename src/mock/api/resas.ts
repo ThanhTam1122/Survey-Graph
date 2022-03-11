@@ -8,17 +8,18 @@ import {
 } from '@/mock/data/errorResponse';
 import {
   MOCK_RESAS_API_KEY,
+  MOCK_NO_RESPONSE,
   MOCK_BAD_REQUEST,
   MOCK_TOO_MANY_REQUESTS,
 } from '@/mock/constants';
 
-// DAMMY_REQUEST を使うものは擬似的な分岐
+// DUMMY_REQUEST を使うものは擬似的な分岐
 
 export const mockPrefecture: ResponseResolver<
   MockedRequest,
   typeof restContext
 > = (req, res, ctx) => {
-  if (process.env.DAMMY_REQUEST === MOCK_TOO_MANY_REQUESTS) {
+  if (process.env.DUMMY_REQUEST === MOCK_TOO_MANY_REQUESTS) {
     return res(ctx.status(429), ctx.json(tooManyRequests));
   }
 
@@ -26,7 +27,11 @@ export const mockPrefecture: ResponseResolver<
     return res(ctx.status(200), ctx.json(forbidden));
   }
 
-  return res(ctx.status(200), ctx.json(prefectures));
+  if (process.env.DUMMY_REQUEST === MOCK_NO_RESPONSE) {
+    return res(ctx.status(200), ctx.json({}));
+  } else {
+    return res(ctx.status(200), ctx.json(prefectures));
+  }
 };
 
 export const mockPopulation: ResponseResolver<
