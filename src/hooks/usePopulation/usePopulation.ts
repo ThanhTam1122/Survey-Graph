@@ -4,8 +4,10 @@ import { HTTPError } from 'ky';
 import { PopulationCategory } from '@/models/Population';
 import getPopulations from '@/domains/getPopulations';
 
-const ADD_POPULATION = 'ADD_POPULATION';
-const REMOVE_POPULATION = 'REMOVE_POPULATION';
+const actionType = {
+  ADD_POPULATION: 'ADD_POPULATION',
+  REMOVE_POPULATION: 'REMOVE_POPULATION',
+};
 
 type Action = {
   type: string;
@@ -17,14 +19,14 @@ const initialState: SeriesOptionsType[] = [];
 
 const reducer = (state: SeriesOptionsType[], action: Action) => {
   switch (action.type) {
-    case ADD_POPULATION:
+    case actionType.ADD_POPULATION:
       const population: SeriesOptionsType = {
         type: 'line',
         name: action.prefName,
         data: action.payload?.data.map((d) => [d.year, d.value]),
       };
       return [...state, population];
-    case REMOVE_POPULATION:
+    case actionType.REMOVE_POPULATION:
       return state.filter((s) => s.name !== action.prefName);
     default:
       return state;
@@ -51,7 +53,7 @@ const usePopulation = () => {
                 throw new Error('Not TotalPopulation Data');
               }
               dispatch({
-                type: ADD_POPULATION,
+                type: actionType.ADD_POPULATION,
                 prefName,
                 payload: totalPopulation,
               });
@@ -72,7 +74,7 @@ const usePopulation = () => {
               setIsLoading(false);
             });
         } else {
-          dispatch({ type: REMOVE_POPULATION, prefName });
+          dispatch({ type: actionType.REMOVE_POPULATION, prefName });
         }
       },
     []
@@ -92,3 +94,4 @@ const usePopulation = () => {
 };
 
 export default usePopulation;
+export { actionType, reducer };

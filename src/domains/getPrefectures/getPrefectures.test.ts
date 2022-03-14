@@ -11,7 +11,10 @@ import { forbidden, tooManyRequests } from '@/mock/data/errorResponse';
 
 beforeAll(() => server.listen());
 
-beforeEach(() => (process.env.NEXT_PUBLIC_RESAS_API_KEY = MOCK_RESAS_API_KEY));
+beforeEach(() => {
+  process.env.NEXT_PUBLIC_RESAS_API_KEY = MOCK_RESAS_API_KEY;
+  process.env.DUMMY_REQUEST = '';
+});
 
 afterEach(() => server.resetHandlers());
 
