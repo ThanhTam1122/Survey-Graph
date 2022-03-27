@@ -12,7 +12,7 @@ type QueryParam = {
 };
 
 const getPopulations = async (
-  options?: Options & { searchParams?: QueryParam }
+  options: Options & { searchParams: QueryParam }
 ): Promise<PopulationCategories> => {
   const mergedOptions = {
     ...DEFAULT_API_OPTIONS,

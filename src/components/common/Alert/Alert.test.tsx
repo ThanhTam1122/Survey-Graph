@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { render, screen } from '@testing-library/react';
 import { matchers } from '@emotion/jest';
 import Alert from './Alert';

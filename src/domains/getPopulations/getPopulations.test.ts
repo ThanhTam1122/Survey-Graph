@@ -1,46 +1,88 @@
-//import { HTTPError } from 'ky-universal';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { HTTPError } from 'ky';
 import getPopulations from './getPopulations';
-import { populationCategories } from '@/mock/population';
-import { forbidden } from '@/mock/errorResponse';
+import {
+  MOCK_RESAS_API_KEY,
+  MOCK_NO_RESPONSE,
+  MOCK_BAD_REQUEST,
+  MOCK_TOO_MANY_REQUESTS,
+} from '@/mock/constants';
+import { server } from '@/mock/server';
+import { populationCategoriesA } from '@/mock/data/population';
+import {
+  badRequest,
+  forbidden,
+  tooManyRequests,
+} from '@/mock/data/errorResponse';
 
-const API_URL =
-  'https://opendata.resas-portal.go.jp/api/v1/population/composition/perYear';
+beforeAll(() => server.listen());
 
-const okServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(populationCategories));
-  })
-);
+beforeEach(() => {
+  process.env.NEXT_PUBLIC_RESAS_API_KEY = MOCK_RESAS_API_KEY;
+  process.env.DUMMY_REQUEST = '';
+});
 
-const forbiddenServer = setupServer(
-  rest.get(API_URL, (req, res, ctx) => {
-    res(ctx.status(200), ctx.json(forbidden));
-  })
-);
+afterEach(() => server.resetHandlers());
+
+afterAll(() => server.close());
 
 describe('getPopulations', () => {
   test('request: 200', () => {
-    okServer.listen();
-
-    getPopulations()
-      .then((data) => {
-        expect(data).toEqual(populationCategories);
-      })
-      .catch(() => {});
-
-    okServer.close();
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).then((data) => {
+      expect(data).toEqual(populationCategoriesA);
+    });
   });
 
-  // TODO 異常系テスト
-  // test('request: 403', () => {
-  //   forbiddenServer.listen();
+  test('request: 200 type guard error', () => {
+    process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
 
-  //   getPopulations().catch((err) => {
-  //     expect(err).toBeInstanceOf(HTTPError);
-  //   });
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).catch((err) => {
+      expect(err).toBeInstanceOf(Error);
+    });
+  });
 
-  //   forbiddenServer.close();
-  // });
+  test('request: 403', () => {
+    process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
+
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).catch(async (err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+      if (err instanceof HTTPError) {
+        expect(err.response.status).toEqual(403);
+        expect(await err.response.json()).toEqual(forbidden);
+      }
+    });
+  });
+
+  test('request: 400', () => {
+    process.env.DUMMY_REQUEST = MOCK_BAD_REQUEST;
+
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).catch(async (err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+      if (err instanceof HTTPError) {
+        expect(err.response.status).toEqual(400);
+        expect(await err.response.json()).toEqual(badRequest);
+      }
+    });
+  });
+
+  test('request: 429', () => {
+    process.env.DUMMY_REQUEST = MOCK_TOO_MANY_REQUESTS;
+
+    return getPopulations({
+      searchParams: { prefCode: 1, cityCode: '-' },
+    }).catch(async (err) => {
+      expect(err).toBeInstanceOf(HTTPError);
+      if (err instanceof HTTPError) {
+        expect(err.response.status).toEqual(429);
+        expect(await err.response.json()).toEqual(tooManyRequests);
+      }
+    });
+  });
 });

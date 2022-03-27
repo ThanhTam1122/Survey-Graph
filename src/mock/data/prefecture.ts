@@ -1,7 +1,7 @@
 import { Prefectures } from '@/models/Prefecture';
 
 // 都道府県一覧 API レスポンス
-const prefectures = {
+const prefectures: Prefectures = {
   message: null,
   result: [
     {

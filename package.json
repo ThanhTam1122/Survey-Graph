@@ -14,7 +14,7 @@
     "fix:eslint": "yarn lint:eslint --fix",
     "fix:stylelint": "yarn lint:stylelint --fix",
     "fix:prettier": "yarn check:prettier --write",
-    "preinstall": "typesync || :",
+    "preinstall": "typesync || echo 'skip typesync'",
     "prepare": "simple-git-hooks || echo 'Can not set git hooks'"
   },
   "dependencies": {

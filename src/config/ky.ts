@@ -4,8 +4,10 @@ import {
   isMessageErrorResponse,
 } from '@/models/ErrorResponse';
 
+export const API_URL = 'https://opendata.resas-portal.go.jp/api/v1';
+
 export const DEFAULT_API_OPTIONS: Options = {
-  prefixUrl: 'https://opendata.resas-portal.go.jp/api/v1',
+  prefixUrl: API_URL,
   retry: 0,
   hooks: {
     beforeRequest: [
@@ -41,9 +43,7 @@ export const DEFAULT_API_OPTIONS: Options = {
           };
         }
 
-        const body = new Blob([JSON.stringify(data, null, 2)], {
-          type: 'application/json',
-        });
+        const body = Buffer.from(JSON.stringify(data, null, 2), 'utf8');
         return new Response(body, init);
       },
     ],

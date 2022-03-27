@@ -14,7 +14,7 @@ export type PopulationCategories = {
   result: {
     boundaryYear: number;
     data: PopulationCategory[];
-  };
+  } | null;
 };
 
 const isPopulation = (arg: unknown): arg is Population => {
@@ -38,8 +38,9 @@ const isPopulationCategoies = (args: unknown): args is PopulationCategories => {
 
   return (
     (typeof pcs.message === 'string' || pcs.message === null) &&
-    typeof pcs.result.boundaryYear === 'number' &&
-    pcs.result.data.every((pc) => isPopulationCategory(pc))
+    ((typeof pcs.result?.boundaryYear === 'number' &&
+      pcs.result?.data.every((pc) => isPopulationCategory(pc))) ||
+      pcs.result === null)
   );
 };
 
