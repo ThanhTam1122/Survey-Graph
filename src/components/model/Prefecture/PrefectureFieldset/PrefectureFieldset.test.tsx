@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import { VFC, ComponentPropsWithRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PrefectureFieldset from './PrefectureFieldset';
