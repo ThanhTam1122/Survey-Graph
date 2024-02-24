@@ -27,13 +27,13 @@ afterAll(() => server.close());
 describe('reducer', () => {
   test('add population', () => {
     const state = populations.filter(
-      (population) => population.name === prefectureNameA
+      (population) => population.name === prefectureNameA,
     );
     const newState = reducer(state, {
       type: actionType.ADD_POPULATION,
       prefName: prefectureNameB,
       payload: populationCategoriesB.result?.data.find(
-        (category) => category.label === '総人口'
+        (category) => category.label === '総人口',
       ),
     });
     expect(newState).toEqual(populations);
@@ -46,7 +46,7 @@ describe('reducer', () => {
       prefName: prefectureNameA,
     });
     expect(newState).toEqual(
-      populations.filter((population) => population.name !== prefectureNameA)
+      populations.filter((population) => population.name !== prefectureNameA),
     );
   });
 });
@@ -70,9 +70,9 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
@@ -84,7 +84,7 @@ describe('usePopulation', () => {
 
       await waitFor(() => result.current.isLoading === false);
       expect(result.current.populations).toEqual(
-        populations.filter((population) => population.name === prefectureNameA)
+        populations.filter((population) => population.name === prefectureNameA),
       );
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe('');
@@ -100,16 +100,16 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
       await waitFor(() => result.current.isLoading === true);
       await waitFor(() => result.current.isLoading === false);
       expect(result.current.populations).toEqual(
-        populations.filter((population) => population.name === prefectureNameA)
+        populations.filter((population) => population.name === prefectureNameA),
       );
 
       fireEvent.click(el);
@@ -128,9 +128,9 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
@@ -144,7 +144,7 @@ describe('usePopulation', () => {
       expect(result.current.populations).toEqual([]);
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。'
+        '想定しない人口遷移データが取得されました。',
       );
     });
   });
@@ -159,9 +159,9 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
@@ -171,7 +171,7 @@ describe('usePopulation', () => {
       expect(result.current.populations).toEqual([]);
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe(
-        `${prefectureNameA}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`
+        `${prefectureNameA}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`,
       );
     });
   });
@@ -186,9 +186,9 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
@@ -198,7 +198,7 @@ describe('usePopulation', () => {
       expect(result.current.populations).toEqual([]);
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。'
+        '想定しない人口遷移データが取得されました。',
       );
     });
   });
@@ -213,9 +213,9 @@ describe('usePopulation', () => {
           type="checkbox"
           onChange={result.current.handlePrefectureCheck(
             prefectureCodeA,
-            prefectureNameA
+            prefectureNameA,
           )}
-        />
+        />,
       );
       const el = getAllByTestId('dummy-input')[0];
       fireEvent.click(el);
@@ -223,7 +223,7 @@ describe('usePopulation', () => {
       await waitFor(() => result.current.isLoading === true);
       await waitFor(() => result.current.isLoading === false);
       expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。'
+        '想定しない人口遷移データが取得されました。',
       );
 
       result.current.handleResetError();

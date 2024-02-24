@@ -21,7 +21,7 @@ describe('PopulationGraph', () => {
 
     // props が子コンポーネントにちゃんと渡っているか確認
     expect(screen.getByTestId('dummyHighchartsReactOptions')).toHaveTextContent(
-      '人口遷移グラフ:選択した都道府県のデータが表示されます。'
+      '人口遷移グラフ:選択した都道府県のデータが表示されます。',
     );
   });
 });

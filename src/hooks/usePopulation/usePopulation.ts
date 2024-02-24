@@ -46,7 +46,7 @@ const usePopulation = () => {
           getPopulations({ searchParams: { prefCode, cityCode: '-' } })
             .then((data) => {
               const totalPopulation = data.result?.data.find(
-                (category) => category.label === '総人口'
+                (category) => category.label === '総人口',
               );
               // データ取得できても、総人口データがない時はエラーにする
               if (totalPopulation === undefined) {
@@ -62,7 +62,7 @@ const usePopulation = () => {
             .catch((err) => {
               if (err instanceof HTTPError) {
                 setErrorMessage(
-                  `${prefName}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`
+                  `${prefName}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`,
                 );
               } else if (err instanceof Error) {
                 setErrorMessage('想定しない人口遷移データが取得されました。');
@@ -77,7 +77,7 @@ const usePopulation = () => {
           dispatch({ type: actionType.REMOVE_POPULATION, prefName });
         }
       },
-    []
+    [],
   );
 
   const handleResetError = useCallback(() => {

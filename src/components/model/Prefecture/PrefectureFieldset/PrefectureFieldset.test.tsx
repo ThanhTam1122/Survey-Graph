@@ -25,7 +25,7 @@ describe('PrefectureFieldset', () => {
     render(<PrefectureFieldset handleCheck={handleCheck} />);
 
     expect(screen.getByTestId('prefectureFieldsetLegend')).toHaveTextContent(
-      '都道府県'
+      '都道府県',
     );
   });
 
@@ -44,7 +44,7 @@ describe('PrefectureFieldset', () => {
       <PrefectureFieldset
         prefectures={prefectures.result}
         handleCheck={handleCheck}
-      />
+      />,
     );
 
     const dummyCheckBox = screen.getAllByTestId('dummyCheckBox');
@@ -58,7 +58,7 @@ describe('PrefectureFieldset', () => {
       <PrefectureFieldset
         prefectures={prefectures.result}
         handleCheck={handleCheck}
-      />
+      />,
     );
 
     // props が子コンポーネントにちゃんと渡っているか確認
@@ -69,7 +69,7 @@ describe('PrefectureFieldset', () => {
         fireEvent.click(d.getElementsByClassName('dummyOnChange')[0]);
 
         expect(onChange).toHaveBeenCalledTimes(i + 1);
-      })
+      }),
     );
   });
 });

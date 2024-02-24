@@ -114,7 +114,7 @@ describe('Home', () => {
     expect(dummyAlertType).toHaveTextContent('error');
     const dummyAlertChildren = screen.getAllByTestId('dummyAlertChildren')[0];
     expect(dummyAlertChildren).toHaveTextContent(
-      '都道府県データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。'
+      '都道府県データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。',
     );
   });
 
@@ -140,13 +140,13 @@ describe('Home', () => {
     render(<Home />);
 
     const dummyPrefectureFieldsetList = screen.getAllByTestId(
-      'dummyPrefectureFieldset'
+      'dummyPrefectureFieldset',
     );
     expect(dummyPrefectureFieldsetList).toHaveLength(prefectures.result.length);
     const dummyValueList = screen.getAllByTestId('dummyValue');
     dummyValueList.forEach((value, i) => {
       expect(value).toHaveTextContent(
-        `${prefectures.result[i].prefCode}-${prefectures.result[i].prefName}`
+        `${prefectures.result[i].prefCode}-${prefectures.result[i].prefName}`,
       );
     });
     const dummyCheckboxList = screen.getAllByTestId('dummyCheckBox')[0];
@@ -176,13 +176,13 @@ describe('Home', () => {
     render(<Home />);
 
     const dummyPrefectureFieldsetList = screen.getAllByTestId(
-      'dummyPopulationGraph'
+      'dummyPopulationGraph',
     );
     expect(dummyPrefectureFieldsetList).toHaveLength(populations.length);
     const dummyTypeNameList = screen.getAllByTestId('dummyTypeName');
     dummyTypeNameList.forEach((tn, i) => {
       expect(tn).toHaveTextContent(
-        `${populations[i].type}-${populations[i].name}`
+        `${populations[i].type}-${populations[i].name}`,
       );
       const dummyGraphData = screen.getAllByTestId(`dummyGraphData-${i}`);
       dummyGraphData.forEach((d, l) => {
@@ -226,7 +226,7 @@ describe('Home', () => {
     expect(dummyToastOpen).toHaveTextContent('true');
     const dummyAlertChildren = screen.getByTestId('dummyAlertChildren');
     expect(dummyAlertChildren).toHaveTextContent(
-      '北海道の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。'
+      '北海道の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。',
     );
   });
 });

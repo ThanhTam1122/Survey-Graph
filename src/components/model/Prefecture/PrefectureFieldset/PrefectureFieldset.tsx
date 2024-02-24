@@ -8,7 +8,7 @@ type Props = {
   prefectures?: Prefecture[];
   handleCheck: (
     prefCode: number,
-    prefName: string
+    prefName: string,
   ) => (e: ChangeEvent<HTMLInputElement>) => void;
 };
 

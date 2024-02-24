@@ -60,7 +60,7 @@ describe('usePrefecture', () => {
       expect(result.current.prefectures).toBeUndefined;
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe(
-        '都道府県データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。'
+        '都道府県データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。',
       );
     });
   });
@@ -76,7 +76,7 @@ describe('usePrefecture', () => {
       expect(result.current.prefectures).toBeUndefined;
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe(
-        '想定しない都道府県データが取得されました。'
+        '想定しない都道府県データが取得されました。',
       );
     });
   });

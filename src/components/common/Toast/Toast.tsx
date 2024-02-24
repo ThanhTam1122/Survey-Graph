@@ -32,7 +32,7 @@ const Toast: FC<PropsWithChildren<Props>> = ({
     <div css={[toast, isOpen && toastOpen]} data-testid="portalToast">
       {children}
     </div>,
-    document.body
+    document.body,
   );
 };
 
