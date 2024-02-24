@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import usePrefecture from './usePrefecture';
 import { server } from '@/mock/server';
 import { MOCK_RESAS_API_KEY, MOCK_NO_RESPONSE } from '@/mock/constants';
@@ -15,7 +15,7 @@ afterAll(() => server.close());
 describe('usePrefecture', () => {
   test('state: initial', async () => {
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePrefecture());
+      const { result } = renderHook(() => usePrefecture());
       expect(result.current.prefectures).toBeUndefined();
       expect(result.current.isLoading).toBe(false);
       expect(result.current.errorMessage).toBe('');
@@ -27,7 +27,7 @@ describe('usePrefecture', () => {
 
   test('state: loading', async () => {
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePrefecture());
+      const { result } = renderHook(() => usePrefecture());
 
       await waitFor(() => result.current.isLoading === true);
       expect(result.current.prefectures).toBeUndefined();
@@ -39,7 +39,7 @@ describe('usePrefecture', () => {
 
   test('state: data fetch', async () => {
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePrefecture());
+      const { result } = renderHook(() => usePrefecture());
 
       await waitFor(() => result.current.isLoading === true);
       await waitFor(() => result.current.isLoading === false);
@@ -53,7 +53,7 @@ describe('usePrefecture', () => {
     process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
 
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePrefecture());
+      const { result } = renderHook(() => usePrefecture());
 
       await waitFor(() => result.current.isLoading === true);
       await waitFor(() => result.current.isLoading === false);
@@ -69,7 +69,7 @@ describe('usePrefecture', () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
 
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePrefecture());
+      const { result } = renderHook(() => usePrefecture());
 
       await waitFor(() => result.current.isLoading === true);
       await waitFor(() => result.current.isLoading === false);

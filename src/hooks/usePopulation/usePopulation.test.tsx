@@ -1,5 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import usePopulation, { actionType, reducer } from './usePopulation';
 import { server } from '@/mock/server';
 import {
@@ -63,7 +63,7 @@ describe('usePopulation', () => {
 
   test('state: prefecture check', async () => {
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
@@ -93,7 +93,7 @@ describe('usePopulation', () => {
 
   test('state: prefecture uncheck', async () => {
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
@@ -121,7 +121,7 @@ describe('usePopulation', () => {
   test('state: prefecture check not all population', async () => {
     process.env.DUMMY_REQUEST = MOCK_NOT_ALL_POPULATION;
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
@@ -152,7 +152,7 @@ describe('usePopulation', () => {
   test('state: prefecture check HTTPError', async () => {
     process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
@@ -179,7 +179,7 @@ describe('usePopulation', () => {
   test('state: prefecture check Error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
@@ -206,7 +206,7 @@ describe('usePopulation', () => {
   test('state: reset error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
     await act(async () => {
-      const { result, waitFor } = renderHook(() => usePopulation());
+      const { result } = renderHook(() => usePopulation());
       const { getAllByTestId } = render(
         <input
           data-testid="dummy-input"
