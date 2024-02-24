@@ -87,27 +87,52 @@ jest.mock('@/components/model/Population/PopulationGraph', () => {
   return dummyPopulationGraph;
 });
 
+jest.mock('@/hooks/usePrefecture');
+jest.mock('@/hooks/usePopulation');
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('Home', () => {
+  // 正常系の都道府県情報レスポンス
+  const prefectureResponse: ReturnType<typeof usePrefecture.default> = {
+    prefectures,
+    isLoading: false,
+    errorMessage: '',
+  };
+
+  // 正常系の人口情報レスポンス
+  const handlePrefectureCheck = jest.fn();
+  const handleResetError = jest.fn();
+  const populationResponse: ReturnType<typeof usePopulation.default> = {
+    populations,
+    isLoading: false,
+    errorMessage: '',
+    handlePrefectureCheck,
+    handleResetError,
+  };
+
   test('render: loading', async () => {
-    const response: ReturnType<typeof usePrefecture.default> = {
+    jest.spyOn(usePrefecture, 'default').mockReturnValue({
       prefectures: undefined,
       isLoading: true,
       errorMessage: '',
-    };
-    jest.spyOn(usePrefecture, 'default').mockReturnValue(response);
+    });
+    jest.spyOn(usePopulation, 'default').mockReturnValue(populationResponse);
 
     render(<Home />);
     screen.getByText('Loading...');
   });
 
   test('render: getPrefectures error - hand over props: Alert', async () => {
-    const response: ReturnType<typeof usePrefecture.default> = {
+    jest.spyOn(usePrefecture, 'default').mockReturnValue({
       prefectures: undefined,
       isLoading: false,
       errorMessage:
         '都道府県データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。',
-    };
-    jest.spyOn(usePrefecture, 'default').mockReturnValue(response);
+    });
+    jest.spyOn(usePopulation, 'default').mockReturnValue(populationResponse);
 
     render(<Home />);
     const dummyAlertType = screen.getAllByTestId('dummyAlertType')[0];
@@ -119,23 +144,11 @@ describe('Home', () => {
   });
 
   test('render: prefectures - hand over props: PrefectureFieldset', async () => {
-    const response: ReturnType<typeof usePrefecture.default> = {
-      prefectures,
-      isLoading: false,
-      errorMessage: '',
-    };
-    jest.spyOn(usePrefecture, 'default').mockReturnValue(response);
-
-    const handlePrefectureCheck = jest.fn();
-    const handleResetError = jest.fn();
-    const response2: ReturnType<typeof usePopulation.default> = {
+    jest.spyOn(usePrefecture, 'default').mockReturnValue(prefectureResponse);
+    jest.spyOn(usePopulation, 'default').mockReturnValue({
+      ...populationResponse,
       populations: [],
-      isLoading: false,
-      errorMessage: '',
-      handlePrefectureCheck,
-      handleResetError,
-    };
-    jest.spyOn(usePopulation, 'default').mockReturnValue(response2);
+    });
 
     render(<Home />);
 
@@ -155,23 +168,8 @@ describe('Home', () => {
   });
 
   test('render: population - hand over props: PopulationGraph', async () => {
-    const response: ReturnType<typeof usePrefecture.default> = {
-      prefectures,
-      isLoading: false,
-      errorMessage: '',
-    };
-    jest.spyOn(usePrefecture, 'default').mockReturnValue(response);
-
-    const handlePrefectureCheck = jest.fn();
-    const handleResetError = jest.fn();
-    const response2: ReturnType<typeof usePopulation.default> = {
-      populations,
-      isLoading: false,
-      errorMessage: '',
-      handlePrefectureCheck,
-      handleResetError,
-    };
-    jest.spyOn(usePopulation, 'default').mockReturnValue(response2);
+    jest.spyOn(usePrefecture, 'default').mockReturnValue(prefectureResponse);
+    jest.spyOn(usePopulation, 'default').mockReturnValue(populationResponse);
 
     render(<Home />);
 
@@ -201,24 +199,14 @@ describe('Home', () => {
   });
 
   test('render: getPopulation error', async () => {
-    const response: ReturnType<typeof usePrefecture.default> = {
-      prefectures,
-      isLoading: false,
-      errorMessage: '',
-    };
-    jest.spyOn(usePrefecture, 'default').mockReturnValue(response);
-
-    const handlePrefectureCheck = jest.fn();
-    const handleResetError = jest.fn();
-    const response2: ReturnType<typeof usePopulation.default> = {
+    jest.spyOn(usePrefecture, 'default').mockReturnValue(prefectureResponse);
+    jest.spyOn(usePopulation, 'default').mockReturnValue({
+      ...populationResponse,
       populations: [],
       isLoading: false,
       errorMessage:
         '北海道の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。',
-      handlePrefectureCheck,
-      handleResetError,
-    };
-    jest.spyOn(usePopulation, 'default').mockReturnValue(response2);
+    });
 
     render(<Home />);
 
