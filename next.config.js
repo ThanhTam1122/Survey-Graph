@@ -5,6 +5,7 @@ const nextConfig = {
     emotion: true,
     reactRemoveProperties: true,
   },
+  transpilePackages: ['ky'],
 };
 
 module.exports = nextConfig;
