@@ -6,14 +6,14 @@
     "build": "next build",
     "start": "next start",
     "test": "jest",
-    "lint-check": "yarn lint:eslint && yarn lint:stylelint && yarn check:prettier",
+    "lint-check": "npm run lint:eslint && npm run lint:stylelint && npm run check:prettier",
     "lint:eslint": "next lint",
     "lint:stylelint": "stylelint \"./src/**/*.{js,jsx,ts,tsx}\"",
     "check:prettier": "prettier --check \"./{public,src}/**/*.{js,jsx,ts,tsx,html,gql,graphql,json}\"",
-    "fix": "yarn fix:eslint && yarn fix:stylelint && yarn fix:prettier",
-    "fix:eslint": "yarn lint:eslint --fix",
-    "fix:stylelint": "yarn lint:stylelint --fix",
-    "fix:prettier": "yarn check:prettier --write",
+    "fix": "npm run fix:eslint && npm run fix:stylelint && npm run fix:prettier",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "fix:stylelint": "npm run lint:stylelint -- --fix",
+    "fix:prettier": "npm run check:prettier -- --write",
     "preinstall": "typesync || echo 'skip typesync'",
     "prepare": "simple-git-hooks || echo 'Can not set git hooks'"
   },
@@ -66,7 +66,7 @@
     "node": "20.9.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "yarn run -s lint-staged"
+    "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
