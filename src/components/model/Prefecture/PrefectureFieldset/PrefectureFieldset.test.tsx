@@ -1,11 +1,11 @@
-import { VFC, ComponentPropsWithRef } from 'react';
+import { FC, ComponentPropsWithRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PrefectureFieldset from './PrefectureFieldset';
 import CheckBox from '@/components/common/CheckBox';
 import { prefectures } from '@/mock/data/prefecture';
 
 jest.mock('@/components/common/CheckBox', () => {
-  const DummyCheckBox: VFC<ComponentPropsWithRef<typeof CheckBox>> = ({
+  const DummyCheckBox: FC<ComponentPropsWithRef<typeof CheckBox>> = ({
     label,
     onChange,
   }) => {

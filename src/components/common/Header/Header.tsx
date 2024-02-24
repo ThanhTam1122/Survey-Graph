@@ -1,8 +1,8 @@
-import { VFC } from 'react';
+import { FC } from 'react';
 import { css } from '@emotion/react';
 import { colors } from '@/styles/constants';
 
-const Header: VFC = () => {
+const Header: FC = () => {
   return (
     <header css={header}>
       <div css={[container, headerLayout]}>

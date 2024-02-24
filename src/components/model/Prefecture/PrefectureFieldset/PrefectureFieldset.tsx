@@ -1,4 +1,4 @@
-import { VFC, ChangeEvent } from 'react';
+import { FC, ChangeEvent } from 'react';
 import { css } from '@emotion/react';
 import { Prefecture } from '@/models/Prefecture';
 import CheckBox from '@/components/common/CheckBox';
@@ -12,7 +12,7 @@ type Props = {
   ) => (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const PrefectureFieldset: VFC<Props> = ({ prefectures, handleCheck }) => {
+const PrefectureFieldset: FC<Props> = ({ prefectures, handleCheck }) => {
   return (
     <fieldset css={prefectureFieldset}>
       <legend css={prefectureLegend} data-testid="prefectureFieldsetLegend">

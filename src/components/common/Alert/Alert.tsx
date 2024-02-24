@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, PropsWithChildren } from 'react';
 import { css } from '@emotion/react';
 import { colors } from '@/styles/constants';
 
@@ -6,7 +6,7 @@ type Props = {
   type: 'info' | 'error';
 };
 
-const Alert: FC<Props> = ({ type = 'info', children }) => {
+const Alert: FC<PropsWithChildren<Props>> = ({ type = 'info', children }) => {
   return (
     <div
       css={[

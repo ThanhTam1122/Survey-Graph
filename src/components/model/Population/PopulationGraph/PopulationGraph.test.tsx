@@ -1,11 +1,11 @@
-import { VFC } from 'react';
+import { FC } from 'react';
 import { render, screen } from '@testing-library/react';
 import HighchartsReact from 'highcharts-react-official';
 import PopulationGraph from './PopulationGraph';
 import { populations } from '@/mock/data/population';
 
 jest.mock('highcharts-react-official', () => {
-  const dummyHighchartsReact: VFC<HighchartsReact.Props> = ({ options }) => {
+  const dummyHighchartsReact: FC<HighchartsReact.Props> = ({ options }) => {
     return (
       <div>
         <div data-testid="dummyHighchartsReactOptions">{`${options?.title?.text}:${options?.subtitle?.text}`}</div>

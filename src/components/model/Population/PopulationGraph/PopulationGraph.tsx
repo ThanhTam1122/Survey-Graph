@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { FC } from 'react';
 import Highcharts, { SeriesOptionsType, Options } from 'highcharts';
 import HighchartsExporting from 'highcharts/modules/exporting';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
@@ -9,7 +9,7 @@ type Props = {
   data: SeriesOptionsType[];
 };
 
-const PopulationGraph: VFC<Props> = ({ data }) => {
+const PopulationGraph: FC<Props> = ({ data }) => {
   if (typeof Highcharts === 'object') {
     HighchartsExporting(Highcharts);
     NoDataToDisplay(Highcharts);
