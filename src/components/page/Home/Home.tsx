@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import Header from '@/components/common/Header';
 import PrefectureFieldset from '@/components/model/Prefecture/PrefectureFieldset';
 import PopulationGraph from '@/components/model/Population/PopulationGraph';
+import Footer from '@/components/common/Footer';
 import Alert from '@/components/common/Alert';
 import Toast from '@/components/common/Toast';
 import usePrefecture from '@/hooks/usePrefecture';
@@ -12,11 +13,12 @@ import { breakPoint } from '@/styles/constants';
 const Home: FC = () => {
   const {
     prefectures,
-    isLoading,
+    isLoading: isPrefectureLoading,
     errorMessage: prefectureErrMsg,
   } = usePrefecture();
   const {
     populations,
+    isLoading: isPopulationLoading,
     errorMessage: populationErrMsg,
     handlePrefectureCheck,
     handleResetError,
@@ -26,7 +28,7 @@ const Home: FC = () => {
     <div>
       <Header />
       <main css={main}>
-        {isLoading ? (
+        {isPrefectureLoading ? (
           // 都道府県 API 読み込み中の UI
           <div css={[container, mainLoadingLayout]}>
             <p css={mainLoadingText}>Loading...</p>
@@ -42,6 +44,7 @@ const Home: FC = () => {
             <div css={[container, mainLayout]}>
               <PrefectureFieldset
                 prefectures={prefectures?.result}
+                isPopulationLoading={isPopulationLoading}
                 handleCheck={handlePrefectureCheck}
               />
               <PopulationGraph data={populations} />
@@ -49,6 +52,7 @@ const Home: FC = () => {
           )
         )}
       </main>
+      <Footer />
       <Toast isOpen={!!populationErrMsg} onClose={handleResetError}>
         <Alert type="error">{populationErrMsg}</Alert>
       </Toast>
@@ -57,6 +61,7 @@ const Home: FC = () => {
 };
 
 const main = css`
+  min-height: 98vh;
   margin: 24px 0;
 `;
 

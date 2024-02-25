@@ -61,7 +61,7 @@ describe('usePopulation', () => {
 
   test('state: prefecture check', async () => {
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -71,7 +71,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });
@@ -93,7 +93,7 @@ describe('usePopulation', () => {
 
   test('state: prefecture uncheck', async () => {
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -103,7 +103,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });
@@ -128,7 +128,7 @@ describe('usePopulation', () => {
   test('state: prefecture check not all population', async () => {
     process.env.DUMMY_REQUEST = MOCK_NOT_ALL_POPULATION;
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -138,7 +138,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });
@@ -161,7 +161,7 @@ describe('usePopulation', () => {
   test('state: prefecture check HTTPError', async () => {
     process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -171,7 +171,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });
@@ -191,7 +191,7 @@ describe('usePopulation', () => {
   test('state: prefecture check Error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -201,7 +201,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });
@@ -221,7 +221,7 @@ describe('usePopulation', () => {
   test('state: reset error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
     const { result } = renderHook(() => usePopulation());
-    const { getAllByTestId } = render(
+    const { getByTestId } = render(
       <input
         data-testid="dummy-input"
         type="checkbox"
@@ -231,7 +231,7 @@ describe('usePopulation', () => {
         )}
       />,
     );
-    const el = getAllByTestId('dummy-input')[0];
+    const el = getByTestId('dummy-input');
     act(() => {
       fireEvent.click(el);
     });

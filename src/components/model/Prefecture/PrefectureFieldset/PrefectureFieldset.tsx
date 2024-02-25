@@ -6,13 +6,18 @@ import { breakPoint } from '@/styles/constants';
 
 type Props = {
   prefectures?: Prefecture[];
+  isPopulationLoading: boolean;
   handleCheck: (
     prefCode: number,
     prefName: string,
   ) => (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const PrefectureFieldset: FC<Props> = ({ prefectures, handleCheck }) => {
+const PrefectureFieldset: FC<Props> = ({
+  prefectures,
+  isPopulationLoading,
+  handleCheck,
+}) => {
   return (
     <fieldset css={prefectureFieldset}>
       <legend css={prefectureLegend} data-testid="prefectureFieldsetLegend">
@@ -24,6 +29,7 @@ const PrefectureFieldset: FC<Props> = ({ prefectures, handleCheck }) => {
             <CheckBox
               key={prefecture.prefCode}
               label={prefecture.prefName}
+              isDisabled={isPopulationLoading}
               onChange={handleCheck(prefecture.prefCode, prefecture.prefName)}
             />
           );

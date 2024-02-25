@@ -4,16 +4,18 @@ import { breakPoint } from '@/styles/constants';
 
 type Props = {
   label: string;
+  isDisabled: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const CheckBox: FC<Props> = ({ label, onChange }) => {
+const CheckBox: FC<Props> = ({ label, isDisabled, onChange }) => {
   return (
     <label css={checkBoxControl}>
       <input
         css={checkBox}
         data-testid="checkbox"
         type="checkbox"
+        disabled={isDisabled}
         onChange={onChange}
       />
       <span css={labelText} data-testid="checkboxLabelText">
@@ -26,11 +28,13 @@ const CheckBox: FC<Props> = ({ label, onChange }) => {
 const checkBoxControl = css`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const checkBox = css`
   width: 18px;
   height: 18px;
+  cursor: inherit;
 
   @media (min-width: ${breakPoint.sm}px) {
     width: 24px;
