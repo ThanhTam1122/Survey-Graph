@@ -18,7 +18,7 @@ describe('Toast', () => {
     );
   });
 
-  test('props: isOpen=opem', () => {
+  test('props: isOpen=open', () => {
     render(<Toast isOpen onClose={() => {}} />);
 
     expect(screen.getByTestId('portalToast')).toHaveStyleRule(
@@ -33,11 +33,11 @@ describe('Toast', () => {
     render(<Toast isOpen onClose={onClose} />);
 
     jest.advanceTimersByTime(2999);
-    expect(onClose).not.toBeCalled();
+    expect(onClose).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(1);
 
-    expect(onClose).toBeCalled();
+    expect(onClose).toHaveBeenCalled();
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
@@ -47,11 +47,11 @@ describe('Toast', () => {
     render(<Toast isOpen autoHideDuration={5000} onClose={onClose} />);
 
     jest.advanceTimersByTime(4999);
-    expect(onClose).not.toBeCalled();
+    expect(onClose).not.toHaveBeenCalled();
 
     jest.advanceTimersByTime(1);
 
-    expect(onClose).toBeCalled();
+    expect(onClose).toHaveBeenCalled();
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
