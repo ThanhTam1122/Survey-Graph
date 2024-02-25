@@ -61,6 +61,7 @@ const Home: FC = () => {
 };
 
 const main = css`
+  min-height: 98vh;
   margin: 24px 0;
 `;
 
