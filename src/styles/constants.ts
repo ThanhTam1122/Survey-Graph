@@ -6,13 +6,13 @@ export const breakPoint = {
   sm,
   md,
   lg,
-};
+} as const;
 
 const toast = 1400;
 
 export const zIndex = {
   toast,
-};
+} as const;
 
 const headerBgColor = '#b7b4b4';
 
@@ -27,4 +27,4 @@ export const colors = {
   alertInfoColor,
   alertErrorBgColor,
   alertErrorColor,
-};
+} as const;
