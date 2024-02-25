@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Fragment>
       <Global styles={globalStyle} />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </Fragment>
   );
 }
