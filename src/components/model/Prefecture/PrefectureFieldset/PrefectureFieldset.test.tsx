@@ -7,11 +7,13 @@ import { prefectures } from '@/mock/data/prefecture';
 jest.mock('@/components/common/CheckBox', () => {
   const DummyCheckBox: FC<ComponentPropsWithRef<typeof CheckBox>> = ({
     label,
+    isDisabled,
     onChange,
   }) => {
     return (
       <div data-testid="dummyCheckBox">
-        <div>{label}</div>
+        <div>{`label: ${label}`}</div>
+        <div>{`isDisabled: ${isDisabled}`}</div>
         <input className="dummyOnChange" type="checkbox" onChange={onChange} />
       </div>
     );
@@ -22,7 +24,12 @@ jest.mock('@/components/common/CheckBox', () => {
 describe('PrefectureFieldset', () => {
   test('no props contents', () => {
     const handleCheck = jest.fn();
-    render(<PrefectureFieldset handleCheck={handleCheck} />);
+    render(
+      <PrefectureFieldset
+        isPopulationLoading={false}
+        handleCheck={handleCheck}
+      />,
+    );
 
     expect(screen.getByTestId('prefectureFieldsetLegend')).toHaveTextContent(
       '都道府県',
@@ -31,7 +38,12 @@ describe('PrefectureFieldset', () => {
 
   test('props: prefectures undefined', () => {
     const handleCheck = jest.fn();
-    render(<PrefectureFieldset handleCheck={handleCheck} />);
+    render(
+      <PrefectureFieldset
+        isPopulationLoading={false}
+        handleCheck={handleCheck}
+      />,
+    );
 
     expect(screen.getByTestId('prefectureFieldsetData').children)
       .toBeEmptyDOMElement;
@@ -43,6 +55,7 @@ describe('PrefectureFieldset', () => {
     render(
       <PrefectureFieldset
         prefectures={prefectures.result}
+        isPopulationLoading={false}
         handleCheck={handleCheck}
       />,
     );
@@ -57,6 +70,7 @@ describe('PrefectureFieldset', () => {
     render(
       <PrefectureFieldset
         prefectures={prefectures.result}
+        isPopulationLoading={false}
         handleCheck={handleCheck}
       />,
     );
@@ -65,7 +79,8 @@ describe('PrefectureFieldset', () => {
     const dummyCheckBox = screen.getAllByTestId('dummyCheckBox');
     expect(
       dummyCheckBox.forEach((d, i) => {
-        expect(d).toHaveTextContent(prefectures.result[i].prefName);
+        expect(d).toHaveTextContent(`label: ${prefectures.result[i].prefName}`);
+        expect(d).toHaveTextContent(`isDisabled: ${false}`);
         fireEvent.click(d.getElementsByClassName('dummyOnChange')[0]);
 
         expect(onChange).toHaveBeenCalledTimes(i + 1);

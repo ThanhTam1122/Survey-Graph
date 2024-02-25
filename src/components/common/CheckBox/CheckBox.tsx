@@ -4,16 +4,18 @@ import { breakPoint } from '@/styles/constants';
 
 type Props = {
   label: string;
+  isDisabled: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
 };
 
-const CheckBox: FC<Props> = ({ label, onChange }) => {
+const CheckBox: FC<Props> = ({ label, isDisabled, onChange }) => {
   return (
     <label css={checkBoxControl}>
       <input
         css={checkBox}
         data-testid="checkbox"
         type="checkbox"
+        disabled={isDisabled}
         onChange={onChange}
       />
       <span css={labelText} data-testid="checkboxLabelText">

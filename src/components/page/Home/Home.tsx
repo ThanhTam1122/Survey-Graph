@@ -12,11 +12,12 @@ import { breakPoint } from '@/styles/constants';
 const Home: FC = () => {
   const {
     prefectures,
-    isLoading,
+    isLoading: isPrefectureLoading,
     errorMessage: prefectureErrMsg,
   } = usePrefecture();
   const {
     populations,
+    isLoading: isPopulationLoading,
     errorMessage: populationErrMsg,
     handlePrefectureCheck,
     handleResetError,
@@ -26,7 +27,7 @@ const Home: FC = () => {
     <div>
       <Header />
       <main css={main}>
-        {isLoading ? (
+        {isPrefectureLoading ? (
           // 都道府県 API 読み込み中の UI
           <div css={[container, mainLoadingLayout]}>
             <p css={mainLoadingText}>Loading...</p>
@@ -42,6 +43,7 @@ const Home: FC = () => {
             <div css={[container, mainLayout]}>
               <PrefectureFieldset
                 prefectures={prefectures?.result}
+                isPopulationLoading={isPopulationLoading}
                 handleCheck={handlePrefectureCheck}
               />
               <PopulationGraph data={populations} />
