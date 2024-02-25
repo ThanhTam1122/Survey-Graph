@@ -28,11 +28,13 @@ const CheckBox: FC<Props> = ({ label, isDisabled, onChange }) => {
 const checkBoxControl = css`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const checkBox = css`
   width: 18px;
   height: 18px;
+  cursor: inherit;
 
   @media (min-width: ${breakPoint.sm}px) {
     width: 24px;
