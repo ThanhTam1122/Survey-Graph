@@ -53,181 +53,202 @@ describe('reducer', () => {
 
 describe('usePopulation', () => {
   test('state: initial', () => {
-    act(() => {
-      const { result } = renderHook(() => usePopulation());
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.errorMessage).toBe('');
-    });
+    const { result } = renderHook(() => usePopulation());
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.errorMessage).toBe('');
   });
 
   test('state: prefecture check', async () => {
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-
-      await waitFor(() => result.current.isLoading === true);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(true);
-      expect(result.current.errorMessage).toBe('');
-
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.populations).toEqual(
-        populations.filter((population) => population.name === prefectureNameA),
-      );
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.errorMessage).toBe('');
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe('');
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.populations).toEqual(
+      populations.filter((population) => population.name === prefectureNameA),
+    );
+    expect(result.current.errorMessage).toBe('');
   });
 
   test('state: prefecture uncheck', async () => {
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-      await waitFor(() => result.current.isLoading === true);
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.populations).toEqual(
-        populations.filter((population) => population.name === prefectureNameA),
-      );
-
-      fireEvent.click(el);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.errorMessage).toBe('');
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.populations).toEqual(
+      populations.filter((population) => population.name === prefectureNameA),
+    );
+
+    act(() => {
+      fireEvent.click(el);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe('');
   });
 
   test('state: prefecture check not all population', async () => {
     process.env.DUMMY_REQUEST = MOCK_NOT_ALL_POPULATION;
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-
-      await waitFor(() => result.current.isLoading === true);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(true);
-      expect(result.current.errorMessage).toBe('');
-
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。',
-      );
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe('');
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe(
+      '想定しない人口遷移データが取得されました。',
+    );
   });
 
   test('state: prefecture check HTTPError', async () => {
     process.env.NEXT_PUBLIC_RESAS_API_KEY = '';
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-
-      await waitFor(() => result.current.isLoading === true);
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.errorMessage).toBe(
-        `${prefectureNameA}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`,
-      );
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe(
+      `${prefectureNameA}の人口遷移データの取得に失敗しました。お手数ですが、お時間経過後に再度お試しください。`,
+    );
   });
 
   test('state: prefecture check Error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-
-      await waitFor(() => result.current.isLoading === true);
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.populations).toEqual([]);
-      expect(result.current.isLoading).toBe(false);
-      expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。',
-      );
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.populations).toEqual([]);
+    expect(result.current.errorMessage).toBe(
+      '想定しない人口遷移データが取得されました。',
+    );
   });
 
   test('state: reset error', async () => {
     process.env.DUMMY_REQUEST = MOCK_NO_RESPONSE;
-    await act(async () => {
-      const { result } = renderHook(() => usePopulation());
-      const { getAllByTestId } = render(
-        <input
-          data-testid="dummy-input"
-          type="checkbox"
-          onChange={result.current.handlePrefectureCheck(
-            prefectureCodeA,
-            prefectureNameA,
-          )}
-        />,
-      );
-      const el = getAllByTestId('dummy-input')[0];
+    const { result } = renderHook(() => usePopulation());
+    const { getAllByTestId } = render(
+      <input
+        data-testid="dummy-input"
+        type="checkbox"
+        onChange={result.current.handlePrefectureCheck(
+          prefectureCodeA,
+          prefectureNameA,
+        )}
+      />,
+    );
+    const el = getAllByTestId('dummy-input')[0];
+    act(() => {
       fireEvent.click(el);
-
-      await waitFor(() => result.current.isLoading === true);
-      await waitFor(() => result.current.isLoading === false);
-      expect(result.current.errorMessage).toBe(
-        '想定しない人口遷移データが取得されました。',
-      );
-
-      result.current.handleResetError();
-      expect(result.current.errorMessage).toBe('');
     });
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(true);
+    });
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+    expect(result.current.errorMessage).toBe(
+      '想定しない人口遷移データが取得されました。',
+    );
+
+    act(() => {
+      result.current.handleResetError();
+    });
+    expect(result.current.errorMessage).toBe('');
   });
 });
