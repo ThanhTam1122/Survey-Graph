@@ -1,16 +1,26 @@
-const esModules = ['ky', 'ky-universal'].join('|');
+/**
+ * For a detailed explanation regarding each configuration property, visit:
+ * https://jestjs.io/docs/configuration
+ */
+const nextJest = require('next/jest.js');
 
-module.exports = {
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+/** @type {import("jest").Config} */
+const config = {
+  setupFiles: ['<rootDir>/jest.polyfills.js'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],
-  testMatch: ['**/*.test.ts', '**/*.test.tsx'],
-  verbose: true,
+  coverageProvider: 'v8',
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
   testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
   },
-  transformIgnorePatterns: [`/node_modules/(?!(${esModules}))/`],
 };
+
+module.exports = createJestConfig(config);

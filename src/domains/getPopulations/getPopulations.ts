@@ -12,7 +12,7 @@ type QueryParam = {
 };
 
 const getPopulations = async (
-  options: Options & { searchParams: QueryParam }
+  options: Options & { searchParams: QueryParam },
 ): Promise<PopulationCategories> => {
   const mergedOptions = {
     ...DEFAULT_API_OPTIONS,
@@ -20,7 +20,7 @@ const getPopulations = async (
   };
   const response = await ky.get(
     'population/composition/perYear',
-    mergedOptions
+    mergedOptions,
   );
   const populations = (await response.json()) as unknown[];
 

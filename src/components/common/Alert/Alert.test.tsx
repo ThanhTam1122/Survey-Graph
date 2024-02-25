@@ -14,7 +14,7 @@ describe('Alert', () => {
     expect(alert).toHaveStyleRule('background-color', colors.alertInfoBgColor);
     expect(alert).toHaveStyleRule(
       'border',
-      `1px solid ${colors.alertInfoColor}`
+      `1px solid ${colors.alertInfoColor}`,
     );
     expect(alertType).toHaveTextContent('info');
     expect(alertType).toHaveStyleRule('color', colors.alertInfoColor);
@@ -28,7 +28,7 @@ describe('Alert', () => {
     expect(alert).toHaveStyleRule('background-color', colors.alertErrorBgColor);
     expect(alert).toHaveStyleRule(
       'border',
-      `1px solid ${colors.alertErrorColor}`
+      `1px solid ${colors.alertErrorColor}`,
     );
     expect(alertType).toHaveTextContent('error');
     expect(alertType).toHaveStyleRule('color', colors.alertErrorColor);

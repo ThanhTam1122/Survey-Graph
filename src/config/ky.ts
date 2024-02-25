@@ -14,7 +14,7 @@ export const DEFAULT_API_OPTIONS: Options = {
       (request) => {
         request.headers.set(
           'X-API-KEY',
-          process.env.NEXT_PUBLIC_RESAS_API_KEY ?? 'Not API Key'
+          process.env.NEXT_PUBLIC_RESAS_API_KEY ?? 'Not API Key',
         );
       },
     ],
@@ -22,7 +22,7 @@ export const DEFAULT_API_OPTIONS: Options = {
       async (
         _request: Request,
         _options: NormalizedOptions,
-        response: Response
+        response: Response,
       ): Promise<Response> => {
         const { headers, status, statusText } = response;
         let init = { headers, status, statusText };

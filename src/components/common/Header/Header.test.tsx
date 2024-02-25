@@ -6,7 +6,7 @@ describe('Header', () => {
     render(<Header />);
 
     expect(screen.getByTestId('headerTitle')).toHaveTextContent(
-      'RESAS Graph App'
+      'RESAS Graph App',
     );
   });
 });

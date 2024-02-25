@@ -1,4 +1,4 @@
-import { MockedRequest, ResponseResolver, restContext } from 'msw';
+import { HttpRequestHandler, HttpResponse } from 'msw';
 import { prefectures } from '@/mock/data/prefecture';
 import { populationCategoriesA } from '@/mock/data/population';
 import {
@@ -16,57 +16,58 @@ import {
 
 // DUMMY_REQUEST を使うものは擬似的な分岐
 
-export const mockPrefecture: ResponseResolver<
-  MockedRequest,
-  typeof restContext
-> = (req, res, ctx) => {
+type Resolver = Parameters<HttpRequestHandler>[1];
+
+export const mockPrefecture: Resolver = ({ request }) => {
   if (process.env.DUMMY_REQUEST === MOCK_TOO_MANY_REQUESTS) {
-    return res(ctx.status(429), ctx.json(tooManyRequests));
+    return HttpResponse.json(tooManyRequests, {
+      status: 429,
+    });
   }
 
-  if (req.headers.get('x-api-key') !== MOCK_RESAS_API_KEY) {
-    return res(ctx.status(200), ctx.json(forbidden));
+  if (request.headers.get('x-api-key') !== MOCK_RESAS_API_KEY) {
+    return HttpResponse.json(forbidden);
   }
 
   if (process.env.DUMMY_REQUEST === MOCK_NO_RESPONSE) {
-    return res(ctx.status(200), ctx.json({}));
+    return HttpResponse.json({});
   } else {
-    return res(ctx.status(200), ctx.json(prefectures));
+    return HttpResponse.json(prefectures);
   }
 };
 
-export const mockPopulation: ResponseResolver<
-  MockedRequest,
-  typeof restContext
-> = (req, res, ctx) => {
+export const mockPopulation: Resolver = ({ request }) => {
   if (process.env.DUMMY_REQUEST === MOCK_TOO_MANY_REQUESTS) {
-    return res(ctx.status(429), ctx.json(tooManyRequests));
+    return HttpResponse.json(tooManyRequests, {
+      status: 429,
+    });
   }
 
-  if (req.headers.get('x-api-key') !== MOCK_RESAS_API_KEY) {
-    return res(ctx.status(200), ctx.json(forbidden));
+  if (request.headers.get('x-api-key') !== MOCK_RESAS_API_KEY) {
+    return HttpResponse.json(forbidden);
   }
+  request;
 
+  const url = new URL(request.url);
+  const prefCode = url.searchParams.get('prefCode');
+  const cityCode = url.searchParams.get('cityCode');
   if (
-    !(
-      req.url.searchParams.get('prefCode') &&
-      req.url.searchParams.get('cityCode')
-    ) ||
+    !(prefCode && cityCode) ||
     process.env.DUMMY_REQUEST === MOCK_BAD_REQUEST
   ) {
-    return res(ctx.status(200), ctx.json(badRequest));
+    return HttpResponse.json(badRequest);
   }
 
   if (process.env.DUMMY_REQUEST === MOCK_NO_RESPONSE) {
-    return res(ctx.status(200), ctx.json({}));
+    return HttpResponse.json({});
   } else if (process.env.DUMMY_REQUEST === MOCK_NOT_ALL_POPULATION) {
     let dummyData = { ...populationCategoriesA };
     dummyData.result = {
       boundaryYear: dummyData.result?.boundaryYear ?? 2012,
       data: dummyData.result?.data.filter((d) => d.label !== '総人口') ?? [],
     };
-    return res(ctx.status(200), ctx.json(dummyData));
+    return HttpResponse.json(dummyData);
   } else {
-    return res(ctx.status(200), ctx.json(populationCategoriesA));
+    return HttpResponse.json(populationCategoriesA);
   }
 };

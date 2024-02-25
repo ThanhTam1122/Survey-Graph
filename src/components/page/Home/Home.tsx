@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { FC } from 'react';
 import { css } from '@emotion/react';
 import Header from '@/components/common/Header';
 import PrefectureFieldset from '@/components/model/Prefecture/PrefectureFieldset';
@@ -9,7 +9,7 @@ import usePrefecture from '@/hooks/usePrefecture';
 import usePopulation from '@/hooks/usePopulation';
 import { breakPoint } from '@/styles/constants';
 
-const Home: VFC = () => {
+const Home: FC = () => {
   const {
     prefectures,
     isLoading,

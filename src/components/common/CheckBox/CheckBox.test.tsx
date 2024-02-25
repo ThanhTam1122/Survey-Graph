@@ -7,7 +7,7 @@ describe('CheckBox', () => {
     render(<CheckBox label={labelText} onChange={() => {}} />);
 
     expect(screen.getByTestId('checkboxLabelText')).toHaveTextContent(
-      labelText
+      labelText,
     );
   });
 

@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from 'react';
+import { FC, PropsWithChildren, MouseEventHandler } from 'react';
 import { createPortal } from 'react-dom';
 import { css } from '@emotion/react';
 import { breakPoint, zIndex } from '@/styles/constants';
@@ -9,7 +9,7 @@ type Props = {
   onClose: MouseEventHandler<HTMLButtonElement>;
 };
 
-const Toast: FC<Props> = ({
+const Toast: FC<PropsWithChildren<Props>> = ({
   isOpen,
   autoHideDuration = 3000,
   onClose,
@@ -32,7 +32,7 @@ const Toast: FC<Props> = ({
     <div css={[toast, isOpen && toastOpen]} data-testid="portalToast">
       {children}
     </div>,
-    document.body
+    document.body,
   );
 };
 

@@ -14,7 +14,7 @@ describe('Toast', () => {
 
     expect(screen.getByTestId('portalToast')).not.toHaveStyleRule(
       'visibility',
-      'visible'
+      'visible',
     );
   });
 
@@ -23,7 +23,7 @@ describe('Toast', () => {
 
     expect(screen.getByTestId('portalToast')).toHaveStyleRule(
       'visibility',
-      'visible'
+      'visible',
     );
   });
 
@@ -60,7 +60,7 @@ describe('Toast', () => {
     render(
       <Toast isOpen autoHideDuration={5000} onClose={() => {}}>
         {children}
-      </Toast>
+      </Toast>,
     );
     const toast = screen.getByTestId('portalToast');
 
