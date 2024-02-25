@@ -162,8 +162,8 @@ describe('Home', () => {
         `${prefectures.result[i].prefCode}-${prefectures.result[i].prefName}`,
       );
     });
-    const dummyCheckboxList = screen.getAllByTestId('dummyCheckBox')[0];
-    fireEvent.click(dummyCheckboxList);
+    const dummyCheckbox = screen.getAllByTestId('dummyCheckBox')[0];
+    fireEvent.click(dummyCheckbox);
     expect(handlePrefectureCheck).toHaveBeenCalledTimes(1);
   });
 
@@ -188,8 +188,8 @@ describe('Home', () => {
         expect(d.textContent).toEqual(data ? data[l]?.toString() : '');
       });
     });
-    const dummyCheckboxList = screen.getAllByTestId('dummyCheckBox')[0];
-    fireEvent.click(dummyCheckboxList);
+    const dummyCheckbox = screen.getAllByTestId('dummyCheckBox')[0];
+    fireEvent.click(dummyCheckbox);
     expect(handlePrefectureCheck).toHaveBeenCalledTimes(1);
 
     const dummyToastOpen = screen.getByTestId('dummyToastOpen');

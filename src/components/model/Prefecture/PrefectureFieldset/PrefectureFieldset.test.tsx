@@ -60,8 +60,8 @@ describe('PrefectureFieldset', () => {
       />,
     );
 
-    const dummyCheckBox = screen.getAllByTestId('dummyCheckBox');
-    expect(dummyCheckBox).toHaveLength(47);
+    const dummyCheckBoxList = screen.getAllByTestId('dummyCheckBox');
+    expect(dummyCheckBoxList).toHaveLength(47);
   });
 
   test('hand over props: CheckBox', () => {
