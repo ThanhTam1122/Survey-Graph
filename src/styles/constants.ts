@@ -14,17 +14,20 @@ export const zIndex = {
   toast,
 } as const;
 
-const headerBgColor = '#b7b4b4';
+const primaryBgColor = '#b7b4b4';
 
 const alertInfoBgColor = '#e5f6fd';
 const alertInfoColor = '#03a9f4';
 const alertErrorBgColor = '#fdeded';
 const alertErrorColor = '#ef5350';
 
+const linkColor = '#2563eb';
+
 export const colors = {
-  headerBgColor,
+  primaryBgColor,
   alertInfoBgColor,
   alertInfoColor,
   alertErrorBgColor,
   alertErrorColor,
+  linkColor,
 } as const;

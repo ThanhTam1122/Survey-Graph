@@ -15,7 +15,7 @@ const Header: FC = () => {
 const header = css`
   width: 100%;
   padding: 16px 0;
-  background-color: ${colors.headerBgColor};
+  background-color: ${colors.primaryBgColor};
 `;
 
 const container = css`

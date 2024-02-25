@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import Header from '@/components/common/Header';
 import PrefectureFieldset from '@/components/model/Prefecture/PrefectureFieldset';
 import PopulationGraph from '@/components/model/Population/PopulationGraph';
+import Footer from '@/components/common/Footer';
 import Alert from '@/components/common/Alert';
 import Toast from '@/components/common/Toast';
 import usePrefecture from '@/hooks/usePrefecture';
@@ -51,6 +52,7 @@ const Home: FC = () => {
           )
         )}
       </main>
+      <Footer />
       <Toast isOpen={!!populationErrMsg} onClose={handleResetError}>
         <Alert type="error">{populationErrMsg}</Alert>
       </Toast>
